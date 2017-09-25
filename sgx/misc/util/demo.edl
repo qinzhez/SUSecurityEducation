@@ -1,0 +1,13 @@
+
+enclave {
+    include "main_u.h"
+    trusted {
+        public void get_secret([out] secret_t* secret);
+    };
+    untrusted {
+        void dum_secret([in] const secret_t* secret);
+    };
+};
+
+
+
