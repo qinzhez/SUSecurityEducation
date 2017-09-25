@@ -8,11 +8,6 @@
 #include "Enclave.h"
 #include "Enclave_t.h"  /* bar*/
 
-#include "../App/sum_sln.h"
-#include "../App/bsort_sln.h"
-#include "../App/msort_sln.h"
-
-
 
 
 /* 

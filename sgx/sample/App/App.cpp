@@ -14,10 +14,6 @@
 #include <time.h>
 #include <sys/time.h>
 
-#include "sum_sln.h"
-#include "bsort_sln.h"
-#include "msort_sln.h"
-
 #define MAX 100
 #define MIN 0
 
@@ -46,8 +42,8 @@ void task_A(int *list, long size){
 	
 	assert(list != NULL);
 
+	// ------------------------------------------ Part 2 -----------------------------------------------
 	struct timeval t_start,t_end;
-
 
 	printf("\n\nThe normal mode of sum computation begin...\n");
 
@@ -114,8 +110,29 @@ void task_B(int *list, long size){
 int InterfaceA(){
 	printf("\n-------------------------------Task A-------------------------------\n");
 
+	printf("Please enter a number for starting number, and a number for amount of numbers\n");
+	int S = 0, C = 0;
+	scanf("%d",&S);
+	scanf("%d",&C);
+	int sum = 0;
+	int *testList = new int[C];
+	for(int i=0;i<C;i++){
+		testList[i] = S+i;
+		sum += S+i;
+	}
+
+	double test = call_sum(testList, C);
+
+	printf("The correct result should be %d. Your sum function output is %.0f\n",sum, test);
+	delete[] testList;
+	if(sum != (int)test){
+		printf("Please return to check your sum function.\n");
+		return 0;
+	}
+
+
 	long num=0;
-	printf("Enter the amount of numbers need\n");
+	printf("\nEnter the amount of numbers need\n");
 	
 	scanf("%ld",&num);
 	
@@ -129,6 +146,7 @@ int InterfaceA(){
 	// ------------------------------------Task A End-------------------------------------
 	printf("\n-------------------------------------------------------------------------\n");
 	delete[] list;
+	return 0;
 }
 
 int InterfaceB(){
@@ -149,6 +167,7 @@ int InterfaceB(){
 	task_B(list, num);
 	printf("\n-------------------------------------------------------------------------\n");
 	delete[] list;
+	return 0;
 }
 
 
