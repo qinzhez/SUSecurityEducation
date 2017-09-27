@@ -11,21 +11,6 @@
 //#include "sgx_status.h"
 #include "App.h"
 #include "Enclave_u.h"
-#include <time.h>
-#include <sys/time.h>
-
-#define MAX 100
-#define MIN 0
-
-void  generateNum(int *list, long count){
-	
-	srand(time(NULL));
-	
-	for(long i=0; i<count; i++){
-		list[i] = rand() % 100;
-	}
-	
-}
 
 void ocall_print(int *list, long size){
 	for(long i=0;i<size;i++){
@@ -33,47 +18,6 @@ void ocall_print(int *list, long size){
 	}
 	printf("\n");
 }
-
-
-
-void task_A(int *list, long size){
-	sgx_status_t ret = SGX_ERROR_UNEXPECTED;
-	int retval;
-	
-	assert(list != NULL);
-
-	// ------------------------------------------ Part 2 -----------------------------------------------
-	struct timeval t_start,t_end;
-
-	printf("\n\nThe normal mode of sum computation begin...\n");
-
-	//time start
-	gettimeofday(&t_start,NULL);
-
-	call_sum(list,size);
-	
-	//time end
-	gettimeofday(&t_end,NULL);
-	double duration = (double)(t_end.tv_sec - t_start.tv_sec)*1000000.0 + (t_end.tv_usec - t_start.tv_usec);
-	printf("\nTime result: Sum function in normal mode cost: %f us\n", duration);
-
-	//-----------------------------------------------------------------------------------------------------------
-	printf("Normal mode finished\n\n======================================\nThe SGX mode of sum computation begin...\n");
-	
-	//time start
-	gettimeofday(&t_start,NULL);
-	
-	ret = call_sum(global_eid, &retval,list,size);
-	
-	//time end
-	gettimeofday(&t_end,NULL);
-	duration = (double)(t_end.tv_sec - t_start.tv_sec)*1000000.0 + (t_end.tv_usec - t_start.tv_usec);
-	printf("\nTime result: Sum function in SGX mode cost: %f us\n", duration);
-	if(ret != SGX_SUCCESS)
-		abort();
-
-}
-
 
 void task_B(int *list, long size){
 	sgx_status_t ret = SGX_ERROR_UNEXPECTED;
@@ -107,48 +51,6 @@ void task_B(int *list, long size){
 }
 
 
-int InterfaceA(){
-	printf("\n-------------------------------Task A-------------------------------\n");
-
-	printf("Please enter a number for starting number, and a number for amount of numbers\n");
-	int S = 0, C = 0;
-	scanf("%d",&S);
-	scanf("%d",&C);
-	int sum = 0;
-	int *testList = new int[C];
-	for(int i=0;i<C;i++){
-		testList[i] = S+i;
-		sum += S+i;
-	}
-
-	double test = call_sum(testList, C);
-
-	printf("The correct result should be %d. Your sum function output is %.0f\n",sum, test);
-	delete[] testList;
-	if(sum != (int)test){
-		printf("Please return to check your sum function.\n");
-		return 0;
-	}
-
-
-	long num=0;
-	printf("\nEnter the amount of numbers need\n");
-	
-	scanf("%ld",&num);
-	
-	// --------------------------------------Task A---------------------------------------
-	printf("%ld numbers will be generated.\n", num);
-	
-	int *list = new int[num];
-	generateNum(list, num);
-
-	task_A(list,num);
-	// ------------------------------------Task A End-------------------------------------
-	printf("\n-------------------------------------------------------------------------\n");
-	delete[] list;
-	return 0;
-}
-
 int InterfaceB(){
 	// --------------------------------------Task B---------------------------------------
 	printf("\n---------------------------------Task B---------------------------------------\n");
@@ -168,51 +70,6 @@ int InterfaceB(){
 	printf("\n-------------------------------------------------------------------------\n");
 	delete[] list;
 	return 0;
-}
-
-
-int Interface(){
-	printf("\nPlease choose a task:\n");
-
-	int ret = 1;
-	//-------------------------Task list--------------------------
-	printf("1 Task A: \n");
-	printf("2 Task B: \n");
-	printf("0 Quit\n");
-	//------------------------------------------------------------
-
-	int choice=-1;
-	scanf("%d",&choice);
-
-	switch(choice){
-		case 0:
-			ret=0;
-			break;
-		case 1:
-			InterfaceA();
-			break;
-		case 2:
-			InterfaceB();
-			break;
-	}
-	return ret;
-}
-
-
-int ecall_foo1(int i, int j)
-{
-    sgx_status_t ret = SGX_ERROR_UNEXPECTED;
-    int retval;
-    ret = ecall_foo(global_eid, &retval, i, j);
-
-    if (ret != SGX_SUCCESS)
-        abort();
-    
-    int cpuid[4] = {0x1, 0x0, 0x0, 0x0};
-    ret = ecall_sgx_cpuid(global_eid, cpuid, 0x0);
-    if (ret != SGX_SUCCESS)
-        abort();
-    return retval;
 }
 
 /* Global EID shared by multiple threads */
@@ -400,7 +257,6 @@ void ocall_bar(const char *str, int ret[1])
      * the input string to prevent buffer overflow. 
      */
     printf("%s", str);
-    ret[0] = 13;
 }
 
 /*
@@ -416,20 +272,18 @@ int SGX_CDECL main(int argc, char *argv[])
     int i = 3;
     int j = 5;
     /* Initialize the enclave */
-printf("a\n");
+	printf("a\n");
     if(initialize_enclave() < 0){printf("Error enclave and exit\n");return -1;}
-printf("b\n");
+	printf("b\n");
  
     /* Utilize edger8r attributes */
     edger8r_function_attributes();
     
-printf("c\n");
+	printf("c\n");
     /* Utilize trusted libraries */
-	
-	int run = 1;
-	while(run){
-		run = Interface();
-	}	
+
+	printf("SGX ready\n\n");	
+	InterfaceB();
 	
     /* Destroy the enclave */
     sgx_destroy_enclave(global_eid);

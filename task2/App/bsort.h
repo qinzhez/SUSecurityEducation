@@ -1,10 +1,9 @@
 
-
 /* 
  * printf: 
  *   Invokes OCALL to display the enclave buffer to the terminal.
  */
-int bar_print(const char *fmt, ...)
+int bar(const char *fmt, ...)
 {
     int ret[1];
     char buf[BUFSIZ] = {'\0'};
@@ -17,14 +16,14 @@ int bar_print(const char *fmt, ...)
 }
 
 
+/*
+	Print out the index accessed each iteration
+*/
+void get_result(long index1,long index2){
+	bar("Iterating: index1 = %ld, index2 = %ld \n",index1, index2);
+}
+
 
 int call_bsort(int *list, long size){
-	for(long i=0;i<size;i++){
-		for(long j = 0; /* Fill condition here */;j++){
-			if(list[j]>list[j+1]){
-				//Fill bubble sort steps	
-			}
-			bar_print("Iterating: i = %ld, j = %ld, j+1 = %ld\n",i,j,j+1);
-		}
-	}
+	/* Fill your code here */
 }

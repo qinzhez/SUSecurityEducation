@@ -1,4 +1,29 @@
 
+/* In bubble sort, it is easy to print out the index accessed each iteration.
+   In merge sort, you need to use following function to print out the right result.
+   
+   index1: indicate an index in the list passed from main is paticipating comparison.
+   index2: indicate another index in the list passed from main is paticipating comparison.
+
+   if no index2, please pass index2 = -1
+
+   for example, 
+   List(0-5) from main: 5 4 3 2 1 0
+   
+	- currently merging reaches list[0] = 5 and list[3] = 2, use indexPrint(0,3);
+	
+	- currently [0 1 2] and [3 4 5] need to be merged. The second list just needs to be appended at
+	  the end of the first list. When appending the list[2] = 3 in the second list, use indexPrint(2,-1)
+*/ 
+
+void indexPrint(long index1, long index2){
+	if(index2 == -1)
+		bar("(%ld) ", index1);
+	else{
+		bar("(%ld %ld) ", index1, index2);
+	}
+}
+
 void merge(int *list, long b1, long e1,long b2, long e2) {
 	if (b1 == e2)
 		return;
@@ -17,27 +42,26 @@ void merge(int *list, long b1, long e1,long b2, long e2) {
 		if (b1+m > e1) {
 			list[i+b1] = l2[n];
 			n++;
-			bar_print("%ld ",b2+n);
+			indexPrint(b2+n,-1);
 		}
 		else if (b2+n > e2) {
 			list[i + b1] = l1[m];
 			m++;
-			bar_print("%ld ",b1+m);
+			indexPrint(b1+m,-1);
 		}
 		else {
+			indexPrint(b1+m,b2+n);
 			if (l1[m]<l2[n]) {
 				list[i + b1] = l1[m];
 				m++;
-				bar_print("%ld ",b1+m);
 			}
 			else {
 				list[i + b1] = l2[n];
 				n++;
-				bar_print("%ld ",b2+n);
 			}
 		}
 	}
-	bar_print("\n");
+	bar("\n");
 }
 
 

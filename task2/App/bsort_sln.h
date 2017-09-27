@@ -1,4 +1,26 @@
 
+/* 
+ * printf: 
+ *   Invokes OCALL to display the enclave buffer to the terminal.
+ */
+int bar(const char *fmt, ...)
+{
+    int ret[1];
+    char buf[BUFSIZ] = {'\0'};
+    va_list ap;
+    va_start(ap, fmt);
+    vsnprintf(buf, BUFSIZ, fmt, ap);
+    va_end(ap);
+    ocall_bar(buf, ret);
+    return ret[0];
+}
+
+
+void get_result(long index1,long index2){
+	bar("Iterating: index1 = %ld, index2 = %ld \n",index1,index2);
+}
+
+
 int call_bsort(int *list, long size){
 	for(long i=0;i<size;i++){
 		for(long j = 0; j<size-i-1;j++){
@@ -7,7 +29,7 @@ int call_bsort(int *list, long size){
 				list[j] = list[j+1];
 				list[j+1] = tmp;
 			}
-			bar_print("Iterating: i = %ld, j = %ld, j+1 = %ld \n",i,j,j+1);
+			get_result(j,j+1);
 		}
 	}
 }

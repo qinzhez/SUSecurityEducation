@@ -28,22 +28,6 @@ int bar1(const char *fmt, ...)
 
 
 
-/* ecall_foo:
- *   Uses malloc/free to allocate/free trusted memory.
- */
-int ecall_foo(int i, int j)
-{
-    void *ptr = malloc(100);
-    assert(ptr != NULL);
-    memset(ptr, 0x0, 100);
-    free(ptr);
-
-int ret = bar1("calling ocall_bar with: i=%d,j=%d\n", i,j);
-bar1("ocall_bar returns: %d\n", ret);
-
-    return i+1;
-}
-
 /* ecall_sgx_cpuid:
  *   Uses sgx_cpuid to get CPU features and types.
  */

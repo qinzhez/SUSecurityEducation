@@ -10,11 +10,7 @@ enclave {
      */
 
     trusted {
-        /*
-         * Utilize malloc/free in enclave.
-         */
-        public int ecall_foo(int i, int j);
-        
+       
         public int call_sum([in,count=size]int *list, long size); 
 
         /*
