@@ -1,8 +1,11 @@
-# security-education
+# CIS700-sgxlab
 
-git@github.com:qinzhez/SUSecurityEducation.git
+### SGX labs designed for CIS700 Information Security and Privacy
 
-Please use `git clone` to download the github repository. Please make sure you can get access to our lab machine.
+
+## Set up the repo from github
+
+Please use `git clone` to download the github repository on the lab machine. Please make sure you can get access to our lab machine.
 
 The account you will use - 
 
@@ -14,6 +17,8 @@ The account you will use -
 
 You can only use Syracuse University LAN to access lab machine. If you prefer to work at home, please contact IT service for VPN information.
 
+
+
 ## Task instructions
 
-All task instructions are in **/sgx/sample/tasks/** folder. Please read them before starting.
+All task instructions are in their seperate directory **README.md** files. Please read them before starting.

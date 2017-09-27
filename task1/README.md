@@ -4,6 +4,13 @@
 
 The purpose of the task is to help you understand the basic structure of code for Intel SGX technology.
 
+The first step, please learn some basic content about Intel SGX technology.
+
+
+* [Intel SGX for Dummies](https://software.intel.com/en-us/blogs/2013/09/26/protecting-application-secrets-with-intel-sgx)
+
+* [Intel SGX](https://software.intel.com/en-us/sgx)
+
 To complete this task, you need to read code files in **/sample/App** and **/sample/Enclave**. After you organized the structure of the trusted and untrusted program in mind, you can complete the **sum.h** in **/sample/App/** to see differential performance for trusted and untrusted program.
 
 ## Task
@@ -11,18 +18,18 @@ To complete this task, you need to read code files in **/sample/App** and **/sam
 We will try to use a function to compute the sum of an array of integers. Through the time differences you observed, you should be able to explain the result you found.
 
 ### Step 1
-Read the program structure and calling hierarchy in folder **/sample/**.
+Read the program structure and calling hierarchy.
 
 ### Step 2
-Open **/sample/App/sum.h**, you can find `bar_print()` and `call_sum()`.
+Open **/sample/App/sum.h**, you can find `bar()` and `call_sum()`.
 
-You need to complete the existed `call_sum()` function to compute the sum of the list. Then, you simply invoke the `bar_print` to output your result to standard output. Save your code.
+You need to complete the existed `call_sum()` function to compute the sum of the list. Then, you simply invoke the `bar` to output your result to standard output. Save your code.
 
 ### Step 3
-Add header file **sum.h** to include of trusted and untrusted source file.
+Add the header file **sum.h** to necessary source files.
 
 ### Step 4
-Under the folder level of **/sample**, use command `make` to compile and link files. Try to fixed the problems you have.
+Under the folder level of **task1**, use command `make` to compile and link files. Try to fixed the problems you have.
 
 ### Step 5
 Once the program compiled, run `app`. You will see a menu. Follow instructions to enter your input. Record the result by using `script` or screenshot.
